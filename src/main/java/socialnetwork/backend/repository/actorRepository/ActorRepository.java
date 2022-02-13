@@ -7,5 +7,5 @@ import socialnetwork.backend.model.actor.Actor;
 @Repository
 public interface ActorRepository extends MongoRepository<Actor, String> {
 
-
+    Actor findActorByEmail(String email);
 }
