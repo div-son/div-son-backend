@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import socialnetwork.backend.model.actorProfile.ActorProfile;
 
 import java.time.LocalDate;
@@ -19,6 +20,7 @@ public class Actor {
 
     private String email;
 
+    @DBRef
     private ActorProfile actorProfile;
 
     private String dateOfBirth;
