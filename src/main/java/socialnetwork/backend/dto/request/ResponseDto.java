@@ -31,7 +31,7 @@ public class ResponseDto {
 
     private Boolean isVerified;
 
-    private LocalDateTime createdDate;
+    private String createdDate;
 
     private Gender sex;
 
@@ -39,6 +39,6 @@ public class ResponseDto {
 
     private Boolean isActive;
 
-    private LocalDateTime modifiedDate;
+    private String modifiedDate;
 
 }

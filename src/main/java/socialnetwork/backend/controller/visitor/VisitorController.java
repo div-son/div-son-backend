@@ -1,6 +1,5 @@
 package socialnetwork.backend.controller.visitor;
 
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,7 @@ public class VisitorController {
     @Autowired
     private VisitorServiceImpl visitorService;
 
-    private Visitor visitor;
+    Visitor visitor;
 
     @Autowired
     VisitorProfileServiceImpl visitorProfileService;
@@ -80,7 +79,7 @@ public class VisitorController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findVisitorById(@PathVariable String id) throws GeneralException {
-        if (visitorService.visitorDoesntExist(id)){
+        if (visitorService.visitorDoesNotExist(id)){
             throw new GeneralException("User with that id does not exist");
         }
         visitorService.findVisitorById(id);

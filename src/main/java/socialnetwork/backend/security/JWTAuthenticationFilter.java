@@ -97,7 +97,7 @@ public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
             responseDto = new ResponseDto();
 
             responseDto.setId(admin.getId());
-            responseDto.setCreatedDate(admin.getCreatedDate());
+            responseDto.setCreatedDate(admin.getCreatedDate().toString());
             responseDto.setFirstName(user.getFirstName());
             responseDto.setLastName(user.getLastName());
             responseDto.setIsActive(admin.getIsActive());
@@ -112,15 +112,15 @@ public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
             responseDto = new ResponseDto();
 
             responseDto.setEmail(visitor.getEmail());
-            responseDto.setCreatedDate(LocalDateTime.now());
+            responseDto.setCreatedDate(LocalDateTime.now().toString());
             responseDto.setFirstName(user.getFirstName());
             responseDto.setId(visitor.getId());
             responseDto.setToken(visitor.getVerificationToken());
-            responseDto.setModifiedDate(LocalDateTime.now());
+            responseDto.setModifiedDate(LocalDateTime.now().toString());
             responseDto.setLastName(user.getLastName());
             responseDto.setIsActive(visitor.getIsActive());
             responseDto.setIsVerified(user.getIsVerified());
-            responseDto.setModifiedDate(LocalDateTime.now());
+            responseDto.setModifiedDate(LocalDateTime.now().toString());
             responseDto.setPhoneNumber(user.getPhoneNumber());
             responseDto.setSex(visitor.getGender());
             responseDto.setToken(token);
