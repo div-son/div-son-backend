@@ -41,7 +41,7 @@ public class VisitorController {
 
     @PostMapping("")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterVisitorDto registerVisitorDto, HttpServletRequest httpServletRequest) throws Exception {
-        if (visitorProfileService.visitorProfileDoesntExistByPhoneNumber(registerVisitorDto.getPhoneNumber())) {
+        if (visitorProfileService.visitorProfileDoesntExistByPhoneNumber(registerVisitorDto.getEmail())) {
             VisitorProfile profile = modelMapper.map(registerVisitorDto, VisitorProfile.class);
             visitorService.registerVisitor(profile);
         } else {
@@ -65,7 +65,7 @@ public class VisitorController {
 
     @PostMapping("/reset-password")
     public ResponseEntity<?> resetPassword(@Valid @RequestBody ResetPasswordDto resetPasswordDto) throws GeneralException {
-        visitorService.resetPassword(resetPasswordDto.getPhoneNumber(), resetPasswordDto.getPassword());
+        visitorService.resetPassword(resetPasswordDto.getEmail(), resetPasswordDto.getPassword());
         ResponseDetails responseDetails = new ResponseDetails(LocalDateTime.now(), "Password have been changed successfully", "success");
         return new ResponseEntity<>(responseDetails, HttpStatus.OK);
     }

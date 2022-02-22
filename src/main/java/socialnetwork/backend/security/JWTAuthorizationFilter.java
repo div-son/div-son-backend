@@ -22,8 +22,6 @@ import static socialnetwork.backend.security.SecurityConstants.*;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
-    private final Logger logger = LoggerFactory.getLogger(Visitor.class);
-
     public JWTAuthorizationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }

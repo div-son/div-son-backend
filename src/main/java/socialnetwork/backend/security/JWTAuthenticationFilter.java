@@ -65,7 +65,7 @@ public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            credential.getPhoneNumber(),
+                            credential.getEmail(),
                             credential.getPassword(),
                             new ArrayList<>())
             );
@@ -85,8 +85,8 @@ public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
 
         ObjectMapper oMapper = new ObjectMapper();
         ResponseDto responseDto;
-        String phoneNumber = ((User) authResult.getPrincipal()).getUsername();
-        VisitorProfile user = visitorProfileRepository.findByPhoneNumber(phoneNumber);
+        String email = ((User) authResult.getPrincipal()).getUsername();
+        VisitorProfile user = visitorProfileRepository.findByEmail(email);
 
         if (credential.getType() != null && credential.getType().equals("ADMIN")) {
             Admin admin = adminRepository.findByUser(user);
@@ -102,7 +102,7 @@ public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
             responseDto.setLastName(user.getLastName());
             responseDto.setIsActive(admin.getIsActive());
             responseDto.setIsVerified(user.getIsVerified());
-            responseDto.setPhoneNumber(user.getPhoneNumber());
+            responseDto.setPhoneNumber(user.getEmail());
             responseDto.setToken(token);
 
         }
@@ -111,7 +111,7 @@ public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
             Visitor visitor = visitorRepository.findByUser(user);
             responseDto = new ResponseDto();
 
-            responseDto.setEmail(visitor.getEmail());
+            responseDto.setEmail(user.getEmail());
             responseDto.setCreatedDate(LocalDateTime.now().toString());
             responseDto.setFirstName(user.getFirstName());
             responseDto.setId(visitor.getId());
@@ -121,7 +121,7 @@ public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
             responseDto.setIsActive(visitor.getIsActive());
             responseDto.setIsVerified(user.getIsVerified());
             responseDto.setModifiedDate(LocalDateTime.now().toString());
-            responseDto.setPhoneNumber(user.getPhoneNumber());
+            responseDto.setPhoneNumber(visitor.getPhoneNumber());
             responseDto.setSex(visitor.getGender());
             responseDto.setToken(token);
 

@@ -42,7 +42,7 @@ public class VisitorRepositoryTest {
     public void test_registerVisitor(){
         VisitorProfile visitorProfile = visitorProfileRepository.findById("62149abf15bfe760e8f75f43").get();
 
-        visitor.setEmail("okoroaforkelechi123@gmail.com");
+        visitor.setPhoneNumber("okoroaforkelechi123@gmail.com");
         visitor.setCreatedDate(LocalDateTime.now());
         visitor.setModifiedDate(LocalDateTime.now());
         visitor.setDateOfBirth("16/12/2002");
@@ -75,7 +75,7 @@ public class VisitorRepositoryTest {
     @Test
     @DisplayName("Find visitor")
     public void test_findVisitorByEmail() {
-        visitor = visitorRepository.findByEmail("OnHover@gmail.com");
+        visitor = visitorRepository.findByPhoneNumber("OnHover@gmail.com");
         Assertions.assertThat(visitor).isNotNull();
         log.info("existed visitor details --> {}", visitor);
     }
@@ -101,8 +101,9 @@ public class VisitorRepositoryTest {
     public void test_updateAVisitorAccountById(){
         visitor = visitorRepository.findById("6214a174c3e3a90291bf8bc0").orElse(null);
         Assertions.assertThat(visitor).isNotNull();
-        visitor.setEmail("OnHover@gmail.com");
+        visitor.setPhoneNumber("OnHover@gmail.com");
         visitorRepository.updateVisitor(visitor);
-        org.junit.jupiter.api.Assertions.assertEquals("OnHover@gmail.com", visitor.getEmail());
+        org.junit.jupiter.api.Assertions.assertEquals("OnHover@gmail.com", visitor.getPhoneNumber());
+
     }
 }

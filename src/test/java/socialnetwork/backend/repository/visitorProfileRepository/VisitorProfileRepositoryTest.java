@@ -40,7 +40,7 @@ public class VisitorProfileRepositoryTest {
         visitorProfile.setLastName("Bull");
         visitorProfile.setIsVerified(true);
         visitorProfile.setPassword("love");
-        visitorProfile.setPhoneNumber("08082167764");
+        visitorProfile.setEmail("08082167764");
         visitorProfile.setUserType(VisitorType.USER);
         visitorProfile.setModifiedDate(LocalDateTime.now());
 

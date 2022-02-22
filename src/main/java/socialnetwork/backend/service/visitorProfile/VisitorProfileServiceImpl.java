@@ -21,8 +21,8 @@ public class VisitorProfileServiceImpl implements VisitorProfileService{
     VisitorProfileRepository visitorProfileRepository;
 
 
-    public Boolean visitorProfileDoesntExistByPhoneNumber(String phoneNumber){
-        return !visitorProfileRepository.existsByPhoneNumber(phoneNumber);
+    public Boolean visitorProfileDoesntExistByPhoneNumber(String email){
+        return !visitorProfileRepository.existsByEmail(email);
     }
 
     public Boolean userDoesNotExist(String id){
@@ -65,7 +65,7 @@ public class VisitorProfileServiceImpl implements VisitorProfileService{
 
     @Override
     public void createVisitorProfile(VisitorProfile visitorProfile) throws GeneralException {
-        if (visitorProfileRepository.existsByPhoneNumber(visitorProfile.getPhoneNumber())){
+        if (visitorProfileRepository.existsByEmail(visitorProfile.getEmail())){
             throw new GeneralException("User with that phone number exist already");
         }
         visitorProfileRepository.save(visitorProfile);

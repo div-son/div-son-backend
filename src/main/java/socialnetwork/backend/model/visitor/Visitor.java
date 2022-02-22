@@ -24,7 +24,7 @@ public class Visitor{
     @DBRef
     private VisitorProfile user;
 
-    private String email;
+    private String phoneNumber;
 
     private String verificationToken;
 

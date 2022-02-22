@@ -26,11 +26,11 @@ public class VisitorDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String anyString) throws UsernameNotFoundException {
-        VisitorProfile user = visitorProfileRepository.findByPhoneNumber(anyString);
+        VisitorProfile user = visitorProfileRepository.findByEmail(anyString);
         if (user == null) {
             throw new UsernameNotFoundException("Visitor does not exist.");
         }
-        return new User(user.getPhoneNumber(), user.getPassword(), getAuthorities(user.getUserType()));
+        return new User(user.getEmail(), user.getPassword(), getAuthorities(user.getUserType()));
     }
 
     private Collection<GrantedAuthority> getGrantedAuthorities(VisitorType role) {

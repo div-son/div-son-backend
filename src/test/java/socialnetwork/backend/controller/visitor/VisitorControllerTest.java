@@ -43,10 +43,10 @@ public class VisitorControllerTest {
 
     @Test
     public void test_createVisitor() throws Exception {
-        registerVisitorDto.setPassword("KelechiDivine");
-        registerVisitorDto.setFirstName("zip");
-        registerVisitorDto.setLastName("demon");
-        registerVisitorDto.setPhoneNumber("08082167763");
+        registerVisitorDto.setPassword("email");
+        registerVisitorDto.setFirstName("benson");
+        registerVisitorDto.setLastName("idahosa");
+        registerVisitorDto.setEmail("ezekielakintunde18@gmail.com");
 
         this.mockMvc.perform(post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -59,7 +59,7 @@ public class VisitorControllerTest {
     @Test
     public void test_visitorCanLogin() throws Exception {
         loginDto.setPassword("meandmyself");
-        loginDto.setPhoneNumber("08087643362");
+        loginDto.setEmail("08087643362");
 
         this.mockMvc.perform(post("/user/login")
                         .contentType(MediaType.APPLICATION_JSON)

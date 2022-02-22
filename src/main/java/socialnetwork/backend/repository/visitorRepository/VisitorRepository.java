@@ -11,13 +11,13 @@ import java.util.List;
 @Repository
 public interface VisitorRepository extends MongoRepository<Visitor, String> {
 
-    Visitor findByEmail(String email);
+    Visitor findByPhoneNumber(String phoneNumber);
 
     Visitor findByUser(VisitorProfile user);
 
     Visitor findVisitorById(String id);
 
-    Boolean existsByEmail(String email);
+    Boolean existsByPhoneNumber(String phoneNumber);
 
     default  void updateVisitor(Visitor visitor){
         visitor.setModifiedDate(LocalDateTime.now());

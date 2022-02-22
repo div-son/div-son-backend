@@ -15,7 +15,7 @@ public interface AdminRepository extends MongoRepository<Admin, String> {
         save(varAdmin);
     }
 
-    boolean existsByPhoneNumber(String phoneNumber);
+    boolean existsByEmail(String email);
 
     Admin findByUser(VisitorProfile user);
 }
