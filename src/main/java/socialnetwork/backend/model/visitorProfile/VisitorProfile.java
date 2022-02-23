@@ -21,7 +21,6 @@ public class VisitorProfile {
 
     private String password;
 
-
     private String email;
 
     private Boolean isVerified;

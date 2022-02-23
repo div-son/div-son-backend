@@ -1,4 +1,4 @@
-package socialnetwork.backend.repository.visitorRepository;
+package socialnetwork.backend.repository.visitor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import socialnetwork.backend.model.visitor.Gender;
 import socialnetwork.backend.model.visitor.Visitor;
 import socialnetwork.backend.model.visitorProfile.VisitorProfile;
-import socialnetwork.backend.repository.visitorProfileRepository.VisitorProfileRepository;
+import socialnetwork.backend.repository.visitorProfile.VisitorProfileRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;

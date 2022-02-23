@@ -1,4 +1,4 @@
-package socialnetwork.backend.repository.visitorRepository;
+package socialnetwork.backend.repository.visitor;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

@@ -8,11 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import socialnetwork.backend.model.visitor.Visitor;
 import socialnetwork.backend.model.visitor.VisitorType;
 import socialnetwork.backend.model.visitorProfile.VisitorProfile;
-import socialnetwork.backend.repository.visitorProfileRepository.VisitorProfileRepository;
-import socialnetwork.backend.repository.visitorRepository.VisitorRepository;
+import socialnetwork.backend.repository.visitorProfile.VisitorProfileRepository;
 
 import java.util.ArrayList;
 import java.util.Collection;

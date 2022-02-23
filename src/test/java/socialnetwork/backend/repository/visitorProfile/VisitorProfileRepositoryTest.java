@@ -1,4 +1,4 @@
-package socialnetwork.backend.repository.visitorProfileRepository;
+package socialnetwork.backend.repository.visitorProfile;
 
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.api.Assertions;
@@ -7,7 +7,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import socialnetwork.backend.model.visitor.Visitor;
 import socialnetwork.backend.model.visitor.VisitorType;
 import socialnetwork.backend.model.visitorProfile.VisitorProfile;
 

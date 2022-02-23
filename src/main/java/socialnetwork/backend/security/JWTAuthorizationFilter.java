@@ -2,14 +2,11 @@ package socialnetwork.backend.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import socialnetwork.backend.exception.GeneralException;
-import socialnetwork.backend.model.visitor.Visitor;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -60,10 +57,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             if (user != null) {
                 return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
             }
-            throw new GeneralException("User1 does not exist");
+            throw new GeneralException("Visitor does not exist.");
         }
         else {
-            throw new GeneralException("User does not exist");
+            throw new GeneralException("User does not exist.");
         }
     }
 }

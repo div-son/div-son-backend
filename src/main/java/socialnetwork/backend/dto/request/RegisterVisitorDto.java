@@ -22,11 +22,6 @@ public class RegisterVisitorDto {
 
     private String lastName;
 
-//    @Pattern(regexp = "^[0]\\d{10}$", message = "Invalid phone number")
-//    @Digits(integer = 11, fraction = 0)
-//    @Size(min = 11, max = 11, message = "Invalid phone number")
-//    private String phoneNumber;
-
     private String email;
 
     private String password;
