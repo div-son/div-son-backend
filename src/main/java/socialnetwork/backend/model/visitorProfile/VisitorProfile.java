@@ -2,7 +2,6 @@ package socialnetwork.backend.model.visitorProfile;
 
 import lombok.*;
 import org.springframework.data.annotation.Id;
-import socialnetwork.backend.model.BaseUser;
 import socialnetwork.backend.model.visitor.VisitorType;
 
 import java.time.LocalDateTime;
@@ -22,7 +21,7 @@ public class VisitorProfile {
 
     private String password;
 
-    private String phoneNumber;
+    private String email;
 
     private Boolean isVerified;
 

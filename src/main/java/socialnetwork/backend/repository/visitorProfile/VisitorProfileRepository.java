@@ -1,4 +1,4 @@
-package socialnetwork.backend.repository.visitorProfileRepository;
+package socialnetwork.backend.repository.visitorProfile;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -7,7 +7,7 @@ import socialnetwork.backend.model.visitorProfile.VisitorProfile;
 @Repository
 public interface VisitorProfileRepository extends MongoRepository<VisitorProfile, String> {
 
-    VisitorProfile findByPhoneNumber(String phoneNumber);
+    VisitorProfile findByEmail(String email);
 
-    Boolean existsByPhoneNumber(String phoneNumber);
+    Boolean existsByEmail(String email);
 }

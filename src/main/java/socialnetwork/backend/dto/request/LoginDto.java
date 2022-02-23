@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 public class LoginDto {
 
     @NotEmpty
-    private String phoneNumber;
+    private String email;
 
     @NotEmpty
     private String password;

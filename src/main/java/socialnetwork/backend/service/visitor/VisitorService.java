@@ -13,9 +13,7 @@ public interface VisitorService {
 
     void verifyEmailToken(String verificationToken, String url) throws GeneralException;
 
-//    void sendResetPasswordToken(String email, String url) throws GeneralException;
-
-    void resetPassword(String resetPasswordToken, String newPassword) throws GeneralException;
+    void resetPassword(String oldPassword, String newPassword) throws GeneralException;
 
     Visitor findVisitorByEmail(String email);
 

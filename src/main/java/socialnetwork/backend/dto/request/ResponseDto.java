@@ -7,9 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import socialnetwork.backend.model.visitor.Gender;
 
-import java.time.LocalDateTime;
-import java.util.Set;
-
 @Data
 @Builder
 @AllArgsConstructor

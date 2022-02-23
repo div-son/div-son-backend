@@ -2,21 +2,21 @@ package socialnetwork.backend.service.visitor;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import socialnetwork.backend.dto.request.ResponseDto;
 import socialnetwork.backend.dto.request.UpdateVisitorDto;
 import socialnetwork.backend.exception.GeneralException;
+import socialnetwork.backend.exception.InvalidVisitorException;
 import socialnetwork.backend.exception.VisitorAlreadyExistException;
+import socialnetwork.backend.exception.VisitorDoesNotException;
 import socialnetwork.backend.model.visitor.Gender;
 import socialnetwork.backend.model.visitor.Visitor;
 import socialnetwork.backend.model.visitor.VisitorType;
 import socialnetwork.backend.model.visitorProfile.VisitorProfile;
-import socialnetwork.backend.repository.visitorProfileRepository.VisitorProfileRepository;
-import socialnetwork.backend.repository.visitorRepository.VisitorRepository;
+import socialnetwork.backend.repository.visitorProfile.VisitorProfileRepository;
+import socialnetwork.backend.repository.visitor.VisitorRepository;
 import socialnetwork.backend.service.visitorProfile.VisitorProfileServiceImpl;
 
 import java.nio.charset.StandardCharsets;
@@ -43,15 +43,14 @@ public class VisitorServiceImpl implements VisitorService{
         return !visitorRepository.existsById(id);
     }
 
-    public Boolean visitorDoesntExist(String email) {
-        return !visitorRepository.existsByEmail(email);
-    }
-
-    private final Logger logger = LoggerFactory.getLogger(Visitor.class);
+//    public Boolean visitorDoesntExist(String phoneNumber) {
+//        return !visitorRepository.existsByPhoneNumber(phoneNumber);
+//    }
 
     @Override
     public void registerVisitor(VisitorProfile visitorProfile) throws GeneralException {
         Visitor visitor = new Visitor();
+
 
         visitorProfile.setModifiedDate(LocalDateTime.now());
         visitorProfile.setIsVerified(false);
@@ -63,12 +62,10 @@ public class VisitorServiceImpl implements VisitorService{
         visitor.setUser(visitorProfile);
         visitor.setCreatedDate(LocalDateTime.now());
         visitor.setIsActive(true);
-        visitor.setEmail("");
         visitor.setDateOfBirth("");
         visitor.setGender(null);
 
         visitorRepository.save(visitor);
-
     }
 
     @Override
@@ -76,11 +73,11 @@ public class VisitorServiceImpl implements VisitorService{
         Visitor visitor = visitorRepository.findByVerificationToken(verificationToken);
 
         if (visitor == null) {
-            throw new GeneralException("User does not exist.");
+            throw new VisitorDoesNotException("Visitor email token should not be null.");
         }
 
         else if (visitor.getUser().getIsVerified()) {
-            throw new VisitorAlreadyExistException("User has been verified.");
+            throw new VisitorAlreadyExistException("Visitor has been verified.");
         }
 
         visitor.setVerificationToken(null);
@@ -89,15 +86,16 @@ public class VisitorServiceImpl implements VisitorService{
     }
 
     @Override
-    public void resetPassword(String phoneNumber, String newPassword) throws GeneralException {
-        VisitorProfile visitorProfile = visitorProfileRepository.findByPhoneNumber(phoneNumber);
+    public void resetPassword(String oldPassword, String newPassword) throws GeneralException {
+        VisitorProfile visitorProfile = visitorProfileRepository.findByEmail(oldPassword);
         Visitor visitor = visitorRepository.findByUser(visitorProfile);
 
         if (visitor == null) {
-            throw new GeneralException("User does not exist");
+            throw new InvalidVisitorException("Visitor id can't be null.");
         } else {
             visitor.getUser().setPassword(encryptPassword(newPassword));
             visitorRepository.save(visitor);
+
             visitorProfile.setPassword(visitor.getUser().getPassword());
             visitorProfileRepository.save(visitorProfile);
         }
@@ -105,20 +103,21 @@ public class VisitorServiceImpl implements VisitorService{
 
     @Override
     public Visitor findVisitorByEmail(String email) {
-        return visitorRepository.findByEmail(email);
+        return visitorRepository.findByPhoneNumber(email);
     }
 
     @Override
     public Visitor findVisitorById(String id) throws GeneralException {
         if (id == null){
-            throw new GeneralException("Visitor's id is null.");
+            throw new GeneralException("Visitor shouldn't be null.");
         }
         return visitorRepository.findVisitorById(id);
     }
 
     @Override
     public void deleteVisitorById(String id) throws GeneralException {
-        Visitor visitor = visitorRepository.findById(id).orElseThrow(()-> new GeneralException("User with that id has already been deleted somewhere.."));
+        Visitor visitor = visitorRepository.findById(id).orElseThrow(()->
+                new GeneralException("This visitor doesn't exist."));
         if (!visitor.getIsActive()) {
             throw new GeneralException("This user has already been deactivated");
         }
@@ -135,10 +134,10 @@ public class VisitorServiceImpl implements VisitorService{
         Visitor existingUser = findVisitorById(visitorDto.getId());
 
         if (!existingUser.getIsActive()) {
-            throw new GeneralException("You can not update a user that has been deactivated");
+            throw new GeneralException("You can not update a visitor that has been deactivated.");
         }
-        if (visitorDto.getEmail() != null) {
-            existingUser.setEmail(visitorDto.getEmail());
+        if (visitorDto.getPhoneNumber() != null) {
+            existingUser.setPhoneNumber(visitorDto.getPhoneNumber());
         }
         if (visitorDto.getGender() != null) {
             existingUser.setGender(Gender.valueOf(String.valueOf(visitorDto.getGender())));
@@ -152,13 +151,14 @@ public class VisitorServiceImpl implements VisitorService{
         if (visitorDto.getLastName() != null) {
             existingUser.getUser().setLastName(visitorDto.getLastName());
         }
-        if (visitorDto.getPhoneNumber() != null) {
-            existingUser.getUser().setPhoneNumber(visitorDto.getPhoneNumber());
+        if (visitorDto.getEmail() != null) {
+            existingUser.getUser().setEmail(visitorDto.getEmail());
         }
-        existingUser.setModifiedDate(LocalDateTime.now());
 
+        existingUser.setModifiedDate(LocalDateTime.now());
         visitorProfileRepository.save(existingUser.getUser());
         visitorRepository.save(existingUser);
+
         return existingUser;
     }
 
@@ -167,13 +167,13 @@ public class VisitorServiceImpl implements VisitorService{
         return bCryptPasswordEncoder.encode(password);
     }
 
-    public ResponseDto checkIfUserExists(String phoneNumber) throws GeneralException {
-        if (!visitorProfileRepository.existsByPhoneNumber(phoneNumber)) {
-            throw new GeneralException("User does not exist");
+    public ResponseDto checkIfVisitorExists(String email) throws GeneralException {
+        if (!visitorProfileRepository.existsByEmail(email)) {
+            throw new VisitorDoesNotException("Visitor with that email does not exist.");
         }
 
         else {
-            VisitorProfile visitorProfile = visitorProfileRepository.findByPhoneNumber(phoneNumber);
+            VisitorProfile visitorProfile = visitorProfileRepository.findByEmail(email);
             Visitor visitor = visitorRepository.findByUser(visitorProfile);
             visitor.getUser().setIsVerified(Boolean.TRUE);
             visitorRepository.save(visitor);
@@ -190,25 +190,24 @@ public class VisitorServiceImpl implements VisitorService{
                     .token(visitor.getVerificationToken())
                     .createdDate(visitor.getCreatedDate().toString())
                     .id(visitor.getId())
-                    .email(visitor.getEmail())
+                    .email(visitorProfile.getEmail())
                     .firstName(visitor.getUser().getFirstName())
                     .lastName(visitor.getUser().getLastName())
                     .isActive(visitor.getIsActive())
                     .isVerified(visitor.getUser().getIsVerified())
                     .modifiedDate(visitor.getModifiedDate().toString())
-                    .phoneNumber(visitor.getUser().getPhoneNumber())
+                    .phoneNumber(visitor.getPhoneNumber())
                     .sex(visitor.getGender())
                     .token(token)
                     .build();
         }
     }
 
-    public Visitor verifyUser(String phoneNumber) throws GeneralException {
-            if (!visitorProfileRepository.existsByPhoneNumber(phoneNumber)) {
-                throw new GeneralException("User with that phone number does not exist");
+    public Visitor verifyUser(String email) throws GeneralException {
+            if (!visitorProfileRepository.existsByEmail(email)) {
+                throw new GeneralException("Visitor with that email does not exist");
             }
-            VisitorProfile profile = visitorProfileRepository.findByPhoneNumber(phoneNumber);
+            VisitorProfile profile = visitorProfileRepository.findByEmail(email);
             return visitorRepository.findByUser(profile);
         }
     }
-
