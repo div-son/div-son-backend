@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 import socialnetwork.backend.dto.request.ChangePasswordDto;
 import socialnetwork.backend.dto.request.UpdateVisitorProfileDto;
 import socialnetwork.backend.exception.GeneralException;
+import socialnetwork.backend.exception.InvalidVisitorException;
 import socialnetwork.backend.model.visitorProfile.VisitorProfile;
-import socialnetwork.backend.repository.visitorProfileRepository.VisitorProfileRepository;
+import socialnetwork.backend.repository.visitorProfile.VisitorProfileRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,21 +21,17 @@ public class VisitorProfileServiceImpl implements VisitorProfileService{
     @Autowired
     VisitorProfileRepository visitorProfileRepository;
 
-
-    public Boolean visitorProfileDoesntExistByPhoneNumber(String phoneNumber){
-        return !visitorProfileRepository.existsByPhoneNumber(phoneNumber);
-    }
-
-    public Boolean userDoesNotExist(String id){
-        return !visitorProfileRepository.existsById(id);
+    public Boolean visitorProfileDoesntExistByEmail(String email){
+        return !visitorProfileRepository.existsByEmail(email);
     }
 
     @Override
     public VisitorProfile findVisitorProfileById(String id) throws GeneralException {
         if (visitorProfileRepository.existsById(id)) {
             return visitorProfileRepository.findById(id).get();
-        }else {
-            throw new GeneralException("User that id does not exist");
+        }
+        else {
+            throw new GeneralException("Visitor with id " + id + " does not exist.");
         }
     }
 
@@ -48,7 +45,7 @@ public class VisitorProfileServiceImpl implements VisitorProfileService{
         if (visitorProfileRepository.existsById(id)) {
             visitorProfileRepository.deleteById(id);
         }else {
-            throw new GeneralException("User that id does not exist");
+            throw new GeneralException("Visitor with id " + id + " does not exist.");
         }
     }
 
@@ -65,20 +62,21 @@ public class VisitorProfileServiceImpl implements VisitorProfileService{
 
     @Override
     public void createVisitorProfile(VisitorProfile visitorProfile) throws GeneralException {
-        if (visitorProfileRepository.existsByPhoneNumber(visitorProfile.getPhoneNumber())){
-            throw new GeneralException("User with that phone number exist already");
+
+        if (visitorProfileRepository.existsByEmail(visitorProfile.getEmail())){
+            throw new GeneralException("Visitor with that email exist already.");
         }
         visitorProfileRepository.save(visitorProfile);
     }
     public void changePassword(ChangePasswordDto changePasswordDto) throws GeneralException {
-        VisitorProfile profile = findVisitorProfileById(changePasswordDto.getUserId());
+        VisitorProfile profile = findVisitorProfileById(changePasswordDto.getVisitorsId());
         if (profile == null){
-            throw new GeneralException("User does not exist");
+            throw new GeneralException("Visitor profile does not exist.");
         }
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 
         if (!bCryptPasswordEncoder.matches(changePasswordDto.getOldPassword(), profile.getPassword())){
-            throw new GeneralException("Incorrect password");
+            throw new GeneralException("The old password is incorrect.");
         }
         profile.setPassword(bCryptPasswordEncoder.encode(changePasswordDto.getNewPassword()));
         visitorProfileRepository.save(profile);

@@ -15,5 +15,5 @@ public class ResetPasswordDto {
     private String password;
 
     @NotEmpty
-    private String phoneNumber;
+    private String email;
 }

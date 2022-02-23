@@ -7,7 +7,8 @@ import socialnetwork.backend.model.visitorProfile.VisitorProfile;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 

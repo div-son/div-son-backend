@@ -14,7 +14,7 @@ public abstract class BaseUser {
 
     private String password;
 
-    private String phoneNumber;
+    private String email;
 
     private VisitorType userType;
 }

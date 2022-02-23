@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import org.apache.tomcat.jni.Local;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import socialnetwork.backend.model.visitorProfile.VisitorProfile;
@@ -24,7 +23,7 @@ public class Visitor{
     @DBRef
     private VisitorProfile user;
 
-    private String email;
+    private String phoneNumber;
 
     private String verificationToken;
 
