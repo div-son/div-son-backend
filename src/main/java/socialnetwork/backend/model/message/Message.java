@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import socialnetwork.backend.model.visitor.Visitor;
 
 import java.time.LocalDateTime;
 
@@ -18,10 +16,9 @@ public class Message {
     @Id
     private String messageId;
 
-//    @DBRef
     private String visitorsId;
 
-    private String context;
+    private String content;
 
     private LocalDateTime sentDate;
 
