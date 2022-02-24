@@ -122,7 +122,7 @@ public class VisitorControllerTest {
 
     @Test
     public void test_findAllVisitors() throws Exception {
-        this.mockMvc.perform(get("all-visitors")
+        this.mockMvc.perform(get("/all-visitors")
                 .header("Authorization", token))
                 .andDo(print())
                 .andExpect(status().isOk())
