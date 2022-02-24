@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import socialnetwork.backend.dto.request.ChangePasswordDto;
 import socialnetwork.backend.dto.request.UpdateVisitorProfileDto;
 import socialnetwork.backend.exception.GeneralException;
-import socialnetwork.backend.exception.InvalidVisitorException;
 import socialnetwork.backend.model.visitorProfile.VisitorProfile;
 import socialnetwork.backend.repository.visitorProfile.VisitorProfileRepository;
 
