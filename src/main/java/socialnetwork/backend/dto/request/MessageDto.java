@@ -15,9 +15,11 @@ public class MessageDto {
 
  private String text;
 
- private LocalDateTime createdDate;
+// private LocalDateTime createdDate;
 
  private String visitorsId;
+
+// private String deliveredDate;
 
 
 }

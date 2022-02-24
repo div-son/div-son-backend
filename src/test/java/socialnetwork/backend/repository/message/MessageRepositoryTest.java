@@ -42,7 +42,7 @@ public class MessageRepositoryTest {
 
         String visitorsId = "621689ba7be9f32400dcc6b1";
 
-        message.setContext("Hi, I miss you.");
+        message.setContent("Hi, I miss you.");
         message.setDeliveredDate(LocalDateTime.now());
         message.setSentDate(LocalDateTime.now());
         message.setVisitorsId(visitorsId);
@@ -64,5 +64,23 @@ public class MessageRepositoryTest {
     public void test_findAllMessages(){
         List<Message> messages = messageRepository.findAll();
         log.info("All messages --> {}", messages);
+    }
+
+    @Test
+    public void test_editMessage() throws MessageNotFoundException {
+        message = messageRepository.findById("621689e34903d6436cf6b545")
+                .orElseThrow(() -> new MessageNotFoundException("Message with that id doesn't exist."));
+
+        message.setContent("Sorry, I am breaking up with you.");
+        messageRepository.editMessage(message);
+        log.info("Edited message successfully --> {}", message);
+    }
+    @Test
+    public void test_deleteMessage() throws MessageNotFoundException {
+        message = messageRepository.findById("621689e34903d6436cf6b545").
+                orElseThrow(() -> new MessageNotFoundException("Message with that id does not exist"));
+
+        messageRepository.deleteById(message.getMessageId());
+        log.info("Deleted message successfully --> {}", message);
     }
 }

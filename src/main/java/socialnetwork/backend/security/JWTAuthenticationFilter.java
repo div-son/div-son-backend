@@ -104,7 +104,6 @@ public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
             responseDto.setIsVerified(user.getIsVerified());
             responseDto.setPhoneNumber(user.getEmail());
             responseDto.setToken(token);
-
         }
 
         else {

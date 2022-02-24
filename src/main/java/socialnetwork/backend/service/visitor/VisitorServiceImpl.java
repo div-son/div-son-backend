@@ -43,10 +43,6 @@ public class VisitorServiceImpl implements VisitorService{
         return !visitorRepository.existsById(id);
     }
 
-//    public Boolean visitorDoesntExist(String phoneNumber) {
-//        return !visitorRepository.existsByPhoneNumber(phoneNumber);
-//    }
-
     @Override
     public void registerVisitor(VisitorProfile visitorProfile) throws GeneralException {
         Visitor visitor = new Visitor();
