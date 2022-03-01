@@ -29,7 +29,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = " https://div-son.herokuapp.com")
 
 public class VisitorController {
 
@@ -49,7 +50,6 @@ public class VisitorController {
             VisitorProfile profile = modelMapper.map(registerVisitorDto, VisitorProfile.class);
             visitorService.registerVisitor(profile);
         }
-
         else {
             throw new VisitorAlreadyExistException("Visitor with that email already exist.");
         }
