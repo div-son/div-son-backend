@@ -20,7 +20,7 @@ public class VisitorProfileServiceImpl implements VisitorProfileService{
     @Autowired
     VisitorProfileRepository visitorProfileRepository;
 
-    public Boolean visitorProfileExistByEmail(String email){
+    public Boolean visitorWithAProfileExistByEmail(String email){
         return visitorProfileRepository.existsByEmail(email);
     }
 

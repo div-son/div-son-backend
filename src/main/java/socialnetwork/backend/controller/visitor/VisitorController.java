@@ -30,12 +30,13 @@ import java.util.List;
 @RequestMapping("/users")
 @Slf4j
 @CrossOrigin
+
 public class VisitorController {
 
     @Autowired
     private VisitorServiceImpl visitorService;
 
-    Visitor visitor;
+    private Visitor visitor;
 
     @Autowired
     VisitorProfileServiceImpl visitorProfileService;
@@ -44,7 +45,7 @@ public class VisitorController {
 
     @PostMapping("")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterVisitorDto registerVisitorDto, HttpServletRequest httpServletRequest) throws Exception {
-        if (visitorProfileService.visitorProfileExistByEmail(registerVisitorDto.getEmail())) {
+        if (visitorProfileService.visitorWithAProfileExistByEmail(registerVisitorDto.getEmail())) {
             throw new VisitorAlreadyExistException("Visitor with that email already exist.");
         }
 
