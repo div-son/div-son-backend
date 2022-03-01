@@ -29,7 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @Slf4j
-
+@CrossOrigin("*")
 public class VisitorController {
 
     @Autowired
@@ -44,12 +44,13 @@ public class VisitorController {
 
     @PostMapping("")
     public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterVisitorDto registerVisitorDto, HttpServletRequest httpServletRequest) throws Exception {
-        if (visitorProfileService.visitorProfileDoesntExistByEmail(registerVisitorDto.getEmail())) {
-            VisitorProfile profile = modelMapper.map(registerVisitorDto, VisitorProfile.class);
-            visitorService.registerVisitor(profile);
-        } else {
+        if (visitorProfileService.visitorProfileExistByEmail(registerVisitorDto.getEmail())) {
             throw new VisitorAlreadyExistException("Visitor with that email already exist.");
         }
+
+        VisitorProfile profile = modelMapper.map(registerVisitorDto, VisitorProfile.class);
+        visitorService.registerVisitor(profile);
+
         ResponseDetails responseDetails = new ResponseDetails(LocalDateTime.now(), "Your account has been created successfully.", HttpStatus.OK.toString());
         return ResponseEntity.status(200).body(responseDetails);
     }
