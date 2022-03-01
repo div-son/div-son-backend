@@ -29,7 +29,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @Slf4j
-@CrossOrigin("*")
+@CrossOrigin
 public class VisitorController {
 
     @Autowired
