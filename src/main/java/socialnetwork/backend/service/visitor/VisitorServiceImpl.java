@@ -199,9 +199,9 @@ public class VisitorServiceImpl implements VisitorService{
         }
     }
 
-    public Visitor verifyUser(String email) throws GeneralException {
+    public Visitor verifyVisitor(String email) throws GeneralException {
             if (!visitorProfileRepository.existsByEmail(email)) {
-                throw new GeneralException("Visitor with that email does not exist");
+                throw new GeneralException("Visitor with that email does not exist.");
             }
             VisitorProfile profile = visitorProfileRepository.findByEmail(email);
             return visitorRepository.findByUser(profile);
