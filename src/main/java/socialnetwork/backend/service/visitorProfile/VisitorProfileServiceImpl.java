@@ -20,12 +20,9 @@ public class VisitorProfileServiceImpl implements VisitorProfileService{
     @Autowired
     VisitorProfileRepository visitorProfileRepository;
 
-    public Boolean visitorWithAProfileExistByEmail(String email){
-        return visitorProfileRepository.existsByEmail(email);
-    }
-
-    public Boolean visitorProfileDoesntExistByEmail(String email){
-        return !visitorProfileRepository.existsByEmail(email);
+    @Override
+    public void createVisitorProfile(VisitorProfile visitorProfile) throws GeneralException {
+        visitorProfileRepository.save(visitorProfile);
     }
 
     @Override
@@ -63,14 +60,7 @@ public class VisitorProfileServiceImpl implements VisitorProfileService{
         visitorProfileRepository.save(existingUser);
     }
 
-    @Override
-    public void createVisitorProfile(VisitorProfile visitorProfile) throws GeneralException {
 
-        if (visitorProfileRepository.existsByEmail(visitorProfile.getEmail())){
-            throw new GeneralException("Visitor with that email exist already.");
-        }
-        visitorProfileRepository.save(visitorProfile);
-    }
     public void changePassword(ChangePasswordDto changePasswordDto) throws GeneralException {
         VisitorProfile profile = findVisitorProfileById(changePasswordDto.getVisitorsId());
         if (profile == null){
@@ -83,5 +73,9 @@ public class VisitorProfileServiceImpl implements VisitorProfileService{
         }
         profile.setPassword(bCryptPasswordEncoder.encode(changePasswordDto.getNewPassword()));
         visitorProfileRepository.save(profile);
+    }
+
+    public boolean visitorDoesNotExistByEmail(String email) {
+        return !visitorProfileRepository.existsByEmail(email);
     }
 }

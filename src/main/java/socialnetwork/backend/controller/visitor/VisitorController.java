@@ -29,14 +29,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @Slf4j
-@CrossOrigin
+@CrossOrigin(origins = "http://localhost:3000")
 
 public class VisitorController {
 
     @Autowired
     private VisitorServiceImpl visitorService;
 
-    private Visitor visitor;
+    Visitor visitor;
 
     @Autowired
     VisitorProfileServiceImpl visitorProfileService;
@@ -44,14 +44,15 @@ public class VisitorController {
     ModelMapper modelMapper = new ModelMapper();
 
     @PostMapping("")
-    public ResponseEntity<?> registerUser(@Valid @RequestBody RegisterVisitorDto registerVisitorDto, HttpServletRequest httpServletRequest) throws Exception {
-        if (visitorProfileService.visitorWithAProfileExistByEmail(registerVisitorDto.getEmail())) {
-            throw new VisitorAlreadyExistException("Visitor with that email already exist.");
+    public ResponseEntity<?> registerVisitor(@Valid @RequestBody RegisterVisitorDto registerVisitorDto, HttpServletRequest httpServletRequest) throws Exception {
+        if (visitorProfileService.visitorDoesNotExistByEmail(registerVisitorDto.getEmail())) {
+            VisitorProfile profile = modelMapper.map(registerVisitorDto, VisitorProfile.class);
+            visitorService.registerVisitor(profile);
         }
 
-        VisitorProfile profile = modelMapper.map(registerVisitorDto, VisitorProfile.class);
-        visitorService.registerVisitor(profile);
-
+        else {
+            throw new VisitorAlreadyExistException("Visitor with that email already exist.");
+        }
         ResponseDetails responseDetails = new ResponseDetails(LocalDateTime.now(), "Your account has been created successfully.", HttpStatus.OK.toString());
         return ResponseEntity.status(200).body(responseDetails);
     }
@@ -76,7 +77,7 @@ public class VisitorController {
 
     @GetMapping("/verify")
     public ResponseEntity<?> verifyVisitorsEmail(@RequestParam("email") String email) throws GeneralException {
-        Visitor visitor = visitorService.verifyUser(email);
+        Visitor visitor = visitorService.verifyVisitor(email);
         ResponseDetailsWithObject responseDetails = new ResponseDetailsWithObject(LocalDateTime.now(), "Visitor confirmation successful.",visitor, "success");
         return new ResponseEntity<>(responseDetails, HttpStatus.OK);
     }
