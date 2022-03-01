@@ -29,8 +29,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 @Slf4j
-//@CrossOrigin(origins = "http://localhost:3000")
-@CrossOrigin(origins = " https://div-son.herokuapp.com")
+@CrossOrigin(origins = "http://localhost:3000")
+//@CrossOrigin(origins = " https://div-son.herokuapp.com")
 
 public class VisitorController {
 
