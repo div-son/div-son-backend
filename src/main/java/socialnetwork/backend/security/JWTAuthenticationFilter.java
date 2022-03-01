@@ -38,18 +38,18 @@ import com.auth0.jwt.JWT;
 import static socialnetwork.backend.security.SecurityConstants.*;
 
 @Slf4j
-public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilter {
+public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final VisitorRepository visitorRepository;
-    private final VisitorProfileRepository visitorProfileRepository;
+    private final VisitorProfileRepository profileRepository;
     private final AdminRepository adminRepository;
 
     LoginDto credential = new LoginDto();
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager, ApplicationContext context) {
         this.authenticationManager = authenticationManager;
-        visitorProfileRepository = context.getBean(VisitorProfileRepository.class);
+        profileRepository = context.getBean(VisitorProfileRepository.class);
         visitorRepository = context.getBean(VisitorRepository.class);
         adminRepository = context.getBean(AdminRepository.class);
         setFilterProcessesUrl("/user/login");
@@ -60,15 +60,11 @@ public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
     @ExceptionHandler(GeneralException.class)
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
-            credential = new ObjectMapper()
-                    .readValue(request.getInputStream(), LoginDto.class);
-
+            credential = new ObjectMapper().readValue(request.getInputStream(), LoginDto.class);
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
-                            credential.getEmail(),
-                            credential.getPassword(),
-                            new ArrayList<>())
-            );
+                            credential.getEmail(), credential.getPassword(),
+                            new ArrayList<>()));
         } catch (IOException exception) {
             throw new RuntimeException("Uuh.. Sorry, visitor does not exist.");
         }
@@ -86,7 +82,7 @@ public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
         ObjectMapper objectMapper = new ObjectMapper();
         ResponseDto responseDto;
         String email = ((User) authResult.getPrincipal()).getUsername();
-        VisitorProfile user = visitorProfileRepository.findByEmail(email);
+        VisitorProfile user = profileRepository.findByEmail(email);
 
         if (credential.getType() != null && credential.getType().equals("ADMIN")) {
             Admin admin = adminRepository.findByUser(user);
@@ -138,5 +134,4 @@ public class JWTAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
         UnsuccessfulLogin responseDetails = new UnsuccessfulLogin(LocalDateTime.now(), "Login error. Incorrect email or password.", "Bad request", "/user/login");
         response.getOutputStream().print("{ \"message\":" + responseDetails + "}");
     }
-
 }
