@@ -21,8 +21,10 @@ public class RegisterVisitorDto {
     private String firstName;
 
     @NotEmpty(message = "Last name is required")
+    @Size(min = 2, max = 20, message = "Last name should be 2 to 20 character long")
     private String lastName;
 
+    @Pattern(regexp = "^[@]\\s")
     @NotEmpty(message = "email is required")
     private String email;
 
