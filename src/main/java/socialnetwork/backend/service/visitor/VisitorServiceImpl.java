@@ -1,5 +1,4 @@
 package socialnetwork.backend.service.visitor;
-package socialnetwork.backend.model.visitor;
 
 
 import com.auth0.jwt.JWT;
@@ -49,7 +48,7 @@ public class VisitorServiceImpl implements VisitorService{
     @Override
     public void registerVisitor(VisitorProfile visitorProfile) throws GeneralException {
         
-        if(visitorProfile.getPassword().lenght < 6){
+        if(visitorProfile.getPassword().length() < 6){
             throw new VisitorDoesNotException("Password must have at least 6 characters.");
         }
         
