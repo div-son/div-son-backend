@@ -8,10 +8,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import socialnetwork.backend.dto.request.ResponseDto;
 import socialnetwork.backend.dto.request.UpdateVisitorDto;
-import socialnetwork.backend.exception.GeneralException;
-import socialnetwork.backend.exception.InvalidVisitorException;
-import socialnetwork.backend.exception.VisitorAlreadyExistException;
-import socialnetwork.backend.exception.VisitorDoesNotException;
+import socialnetwork.backend.exception.*;
 import socialnetwork.backend.model.visitor.Gender;
 import socialnetwork.backend.model.visitor.Visitor;
 import socialnetwork.backend.model.visitor.VisitorType;
@@ -49,7 +46,7 @@ public class VisitorServiceImpl implements VisitorService{
     public void registerVisitor(VisitorProfile visitorProfile) throws GeneralException {
         
         if(visitorProfile.getPassword().length() < 6){
-            throw new VisitorDoesNotException("Password must have at least 6 characters.");
+            throw new InvalidPasswordException("Password must have at least 6 characters.");
         }
         
         Visitor visitor = new Visitor();
